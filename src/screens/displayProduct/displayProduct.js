@@ -103,7 +103,7 @@ export default function DisplayProductComponent(props) {
           !props?.activeContentTypes.contentSource) ||
         !props?.activeContentTypes.contentFormat ? (
           <p>Please Select Content Type and Content Format</p>
-        ) : props.contentList.length == 0 ? <p>No Content Found!</p> : (
+        ) : props?.contentList.length == 0 ? <p>No Content Found!</p> : (
           <InfiniteScroll
             dataLength={props.contentList.length} //This is important field to render the next data
             next={fetchContentList}

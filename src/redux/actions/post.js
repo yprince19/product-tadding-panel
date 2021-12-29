@@ -146,7 +146,7 @@ export function postTrashContent(data) {
             tempData.splice(i, 1);
           }
         }
-        dispatch({ type: "CONTENT_LIST_REPLACE", payload: tempData });
+        dispatch({ type: "CONTENT_LIST_REPLACE", payload: {data: tempData, hasMore: true} });
       })
       .catch((error) => {
         console.log("error", error);
