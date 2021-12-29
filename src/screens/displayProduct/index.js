@@ -18,6 +18,7 @@ const mapStateToProps = (state) => ({
   activeContentTypes: state.state.activeContentTypes,
   activeBrand: state.state.activeBrand,
   taggedDataList: state.state.taggedDataList,
+  hasMore: state.get.hasMore,
 });
 
 const mapDispatchToProps = (dispatch) => {

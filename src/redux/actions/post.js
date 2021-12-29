@@ -6,6 +6,7 @@ export function postTagContent(data) {
     var myHeaders = new Headers();
     myHeaders.append("Service-Token", "2900ba48-85f6-4929-b19d-0c0da14dbc14");
     myHeaders.append("Content-Type", "application/json");
+    let activeBrandId = localStorage.getItem('activeBrandId');
 
     var raw = JSON.stringify({
       data: [
@@ -17,7 +18,7 @@ export function postTagContent(data) {
         // },
         { ...data.products },
       ],
-      zaamo_id: "QnJhbmQ6Ng==",
+      zaamo_id: activeBrandId, //"QnJhbmQ6Ng=="
       user_type: "BRAND",
       tag_type: data.tagType,
     });

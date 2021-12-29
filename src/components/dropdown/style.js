@@ -7,5 +7,6 @@ export const Div = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.7rem;
+    padding: 4px 10px 4px 4px;
   }
 `;

@@ -2,6 +2,26 @@ import styled from "styled-components";
 
 export const ContentCard = styled.div`
   margin: 20px 0;
+  max-width: 22%;
+  min-width: 220px;
+  background-color: #fff;
+  max-height: 90vh;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  @media (max-width: 478px) {
+    max-width: 100%;
+  }
 `;
 
 export const Container = styled.div`
@@ -14,7 +34,7 @@ export const Flex = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 0;
+  padding: 5px 0;
 `;
 
 export const ProductImage = styled.div`
@@ -26,7 +46,8 @@ export const ProductImage = styled.div`
   position: relative;
   width: fit-content;
   margin: auto;
-  img, video {
+  img,
+  video {
     max-width: 100%;
   }
 `;
@@ -48,6 +69,11 @@ export const FlexScroll = styled.div`
   display: flex;
   width: 100%;
   padding: 0 0 5px 0;
+  -ms-overflow-style: none;
+  scrollbar-width: 2px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ButtonAdd = styled.div`
@@ -66,7 +92,7 @@ export const ButtonAdd = styled.div`
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 0.8rem;
     line-height: 14px;
     align-items: flex-end;
     letter-spacing: -0.02em;
@@ -84,7 +110,7 @@ export const CategoryGroup = styled.div`
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 0.7rem;
     line-height: 14px;
     display: flex;
     align-items: flex-end;
@@ -98,11 +124,25 @@ export const ContentWrapper = styled.div`
   background: #f8fafc;
   border-radius: 10px;
   padding: 10px;
+  font-size: 0.85rem;
+  max-height: 200px;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
   h2 {
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 19px;
     display: flex;
     align-items: flex-end;
@@ -116,7 +156,7 @@ export const ContentWrapper = styled.div`
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     line-height: 19px;
     letter-spacing: -0.02em;
     color: rgba(0, 0, 0, 0.5);
@@ -125,8 +165,8 @@ export const ContentWrapper = styled.div`
 
 export const ProductOverviewWrap = styled.div`
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 0px;
+  left: 5px;
   ul {
     list-style: none;
     padding: 0;
@@ -135,16 +175,16 @@ export const ProductOverviewWrap = styled.div`
       font-family: Roboto;
       font-style: normal;
       font-weight: bold;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       line-height: 14px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       letter-spacing: -0.02em;
       color: #ffffff;
-      padding: 7px 0;
-
+      padding: 4px 0;
       span {
         margin-left: 7px;
+        filter: drop-shadow(0px 0px 4px #000);
       }
     }
   }

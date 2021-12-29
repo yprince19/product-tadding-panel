@@ -21,6 +21,7 @@ export default function SelectBrandComponent(props) {
 
   const onChange = (e) => {
     props.SetBrand(e.value);
+    localStorage.setItem('activeBrandId', e.value);
   };
 
   return (

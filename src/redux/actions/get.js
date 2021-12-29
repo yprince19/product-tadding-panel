@@ -81,12 +81,13 @@ export function getContentList(data) {
     };
 
     let offset = data.contentList.length;
+    let activeBrandId = localStorage.getItem('activeBrandId');
     fetch(
       `${urlFor(ServiceEnum.getContentList)}?content_format=${
         data.contentFormat
       }&content_source=${
         data.contentSource
-      }&limit=5&offset=${offset}&zaamo_id=QnJhbmQ6Ng==&user_type=BRAND`,
+      }&limit=10&offset=${offset}&zaamo_id=${activeBrandId}&user_type=BRAND`,
       requestOptions
     )
       .then((response) => response.json())
@@ -108,8 +109,10 @@ export function getContentList(data) {
           }
         });
         console.log('TAGGED', temp)
+
+        const hasMore = result.data.length < 10 ? false : true;
         dispatch({ type: "TAGGED_DATA", payload: temp });
-        dispatch({ type: "CONTENT_LIST", payload: result.data });
+        dispatch({ type: "CONTENT_LIST", payload: {data: result.data, hasMore: hasMore} });
         return { success: true };
       })
       .catch((error) => {

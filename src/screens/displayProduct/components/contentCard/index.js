@@ -1,11 +1,28 @@
-import { useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import { ReactSVG } from "react-svg";
 import DropdownComp from "../../../../components/dropdown";
-import { setContentTypes } from "../../../../redux/actions/state";
 import * as S from "./style";
+import Zoom, { Controlled as ControlledZoom } from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const ContentCard = (props) => {
   const [activeContentType, setActiveContentType] = useState(null);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const vidRef = useRef(null);
+  const handlePlayVideo = () => {
+    console.log(vidRef)
+    if (vidRef.current.paused) {
+      vidRef.current.play();
+    } else {
+      vidRef.current.pause();
+    }
+  };
+
+  const handleZoomChange = useCallback(shouldZoom => {
+    setIsZoomed(shouldZoom);
+    handlePlayVideo();
+  }, [])
 
   const untagCollection = (data) => {
     props?.postUnTagContent({
@@ -37,30 +54,52 @@ const ContentCard = (props) => {
         <S.Cross onClick={() => trashContent(props.id)}>
           <ReactSVG src="/assets/images/cross-trash.svg" />
         </S.Cross>
-        {props?.media_type === "VIDEO" ? (
-          <video controls>
-            <source src={props?.media_url} type="video/mp4" />
-          </video>
+        {props?.media_type !== "VIDEO" ? (
+          // <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
+            <video onClick={handlePlayVideo} ref={vidRef} width="100%">
+              <source
+                src="https://www.w3schools.com/html/mov_bbb.mp4"
+                type="video/mp4"
+              />
+              <source
+                src="https://www.w3schools.com/html/mov_bbb.ogg"
+                type="video/ogg"
+              />
+            </video>
+          // </ControlledZoom>
         ) : (
-          <img src={props?.media_url} alt="img" />
+          <Zoom>
+            <img width="100%" src={props?.media_url} alt="img" />
+          </Zoom>
         )}
         <S.ProductOverviewWrap>
           <ul>
             <li>
-              <ReactSVG src="/assets/images/heart.svg" />
+              <ReactSVG
+                style={{ filter: "drop-shadow(0px 0px 4px #000)" }}
+                src="/assets/images/heart.svg"
+              />
               <span>{props?.likes}</span>
             </li>
             <li>
-              <ReactSVG src="/assets/images/comment.svg" />
+              <ReactSVG
+                style={{ filter: "drop-shadow(0px 0px 4px #000)" }}
+                src="/assets/images/comment.svg"
+              />
               <span>{props?.comments}</span>
             </li>
             <li>
-              <ReactSVG src="/assets/images/share.svg" />
+              <ReactSVG
+                style={{ filter: "drop-shadow(0px 0px 4px #000)" }}
+                src="/assets/images/share.svg"
+              />
               <span>{props?.followers}</span>
             </li>
-            <br />
             <li>
-              <ReactSVG src="/assets/images/eye.svg" />
+              <ReactSVG
+                style={{ filter: "drop-shadow(0px 0px 4px #000)" }}
+                src="/assets/images/eye.svg"
+              />
               <span>Quick View</span>
             </li>
           </ul>

@@ -19,25 +19,29 @@ const ProductList = (props) => {
 
   return (
     <>
-      <InfiniteScroll
-        dataLength={props.products.length}
-        next={fetchMore}
-        hasMore={
-          props.type == "PRODUCT"
-            ? props?.tagProducts?.data?.pageInfo?.hasNextPage
-            : props?.tagCollection?.data?.pageInfo?.hasNextPage
-        }
-      >
-        {props.products.map((e, i) => (
-          <ProductCard
-            postUnTagContent={props.postUnTagContent}
-            taggedDataList={props?.taggedDataList}
-            key={i}
-            {...e}
-            {...props}
-          />
-        ))}
-      </InfiniteScroll>
+      {props?.products.length == 0 ? (
+        <p>No data found!</p>
+      ) : (
+        <InfiniteScroll
+          dataLength={props.products.length}
+          next={fetchMore}
+          hasMore={
+            props.type == "PRODUCT"
+              ? props?.tagProducts?.data?.pageInfo?.hasNextPage
+              : props?.tagCollection?.data?.pageInfo?.hasNextPage
+          }
+        >
+          {props.products.map((e, i) => (
+            <ProductCard
+              postUnTagContent={props.postUnTagContent}
+              taggedDataList={props?.taggedDataList}
+              key={i}
+              {...e}
+              {...props}
+            />
+          ))}
+        </InfiniteScroll>
+      )}
     </>
   );
 };

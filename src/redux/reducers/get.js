@@ -5,6 +5,7 @@ const State = (
     tagProducts: {},
     contentList: [],
     tagCollection: {},
+    hasMore: true
   },
   action = {}
 ) => {
@@ -41,7 +42,8 @@ const State = (
     case "CONTENT_LIST":
       return {
         ...state,
-        contentList: [...state.contentList, ...action.payload],
+        contentList: [...state.contentList, ...action.payload.data],
+        hasMore: action.payload.hasMore
       };
     case "CONTENT_LIST_REPLACE":
       return {

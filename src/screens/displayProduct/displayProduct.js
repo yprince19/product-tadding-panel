@@ -43,7 +43,7 @@ export default function DisplayProductComponent(props) {
     ) {
       props.getContentList({
         ...props.activeContentTypes,
-        contentList: [ ...props.contentList ],
+        contentList: [...props.contentList],
       });
     }
   };
@@ -99,20 +99,30 @@ export default function DisplayProductComponent(props) {
       <S.Container>
         {props?.activeContentTypes == null ||
         (props?.activeContentTypes != null &&
-          !props?.activeContentTypes.contentSource ||
-          !props?.activeContentTypes.contentFormat) ? (
+          !props?.activeContentTypes.contentSource) ||
+        !props?.activeContentTypes.contentFormat ? (
           <p>Please Select Content Type and Content Format</p>
-        ) : (
+        ) : props.contentList.length == 0 ? <p>No Content Found!</p> : (
           <InfiniteScroll
             dataLength={props.contentList.length} //This is important field to render the next data
             next={fetchContentList}
-            hasMore={true}
+            hasMore={props.hasMore}
             loader={<h4>Loading...</h4>}
             endMessage={
-              <p style={{ textAlign: "center" }}>
+              <p
+                style={{
+                  textAlign: "center",
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  padding: "5px 0"
+                }}
+              >
                 <b>Yay! You have seen it all</b>
               </p>
             }
+            className="flex-card"
           >
             {props.contentList.map((e, i) => (
               <ContentCard

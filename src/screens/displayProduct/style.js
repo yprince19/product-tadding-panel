@@ -14,5 +14,13 @@ export const Flex = styled.div`
 export const Container = styled.div`
   padding: 15px 10px;
   background-color: #e5e5e5;
+  position: relative;
+  padding-bottom: 30px;
+  .flex-card {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-around;
+  }
 `;
 // backgroud-image: ${({ bgImg }) => `url(${bgImg})`};
