@@ -32,10 +32,10 @@ export default function DisplayProductComponent(props) {
   }, [props.getContentFilters]);
 
   useEffect(() => {
-    fetchContentList();
+    fetchContentList(true);
   }, [props.activeContentTypes]);
 
-  const fetchContentList = () => {
+  const fetchContentList = (flag) => {
     if (
       props?.activeContentTypes !== null &&
       props?.activeContentTypes.contentSource &&
@@ -44,7 +44,7 @@ export default function DisplayProductComponent(props) {
       props.getContentList({
         ...props.activeContentTypes,
         contentList: [...props.contentList],
-        replaceList: true
+        replaceList: flag
       });
     }
   };
@@ -106,9 +106,9 @@ export default function DisplayProductComponent(props) {
         ) : props?.contentList.length == 0 ? <p>No Content Found!</p> : (
           <InfiniteScroll
             dataLength={props.contentList.length} //This is important field to render the next data
-            next={fetchContentList}
+            next={() => fetchContentList(false)}
             hasMore={props.hasMore}
-            loader={<h4></h4>}
+            loader={<h4>Loading...</h4>}
             endMessage={
               <p
                 style={{
