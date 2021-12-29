@@ -48,7 +48,8 @@ const State = (
     case "CONTENT_LIST_REPLACE":
       return {
         ...state,
-        contentList: action.payload,
+        contentList: action.payload.data,
+        hasMore: action.payload.hasMore
       };
     default:
       return state;

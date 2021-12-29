@@ -92,7 +92,7 @@ export function getContentList(data) {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result, "res");
+        console.log(result, "res", data);
         let temp = {};
         [...data.contentList, ...result.data].map((e) => {
           let id = `${e.id}`;
@@ -113,6 +113,9 @@ export function getContentList(data) {
         const hasMore = result.data.length < 10 ? false : true;
         dispatch({ type: "TAGGED_DATA", payload: temp });
         dispatch({ type: "CONTENT_LIST", payload: {data: result.data, hasMore: hasMore} });
+        if (data?.replaceList) {
+          dispatch({ type: "CONTENT_LIST_REPLACE", payload: {data: result.data, hasMore: hasMore} });
+        }
         return { success: true };
       })
       .catch((error) => {

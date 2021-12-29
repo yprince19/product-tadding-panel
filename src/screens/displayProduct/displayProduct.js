@@ -44,6 +44,7 @@ export default function DisplayProductComponent(props) {
       props.getContentList({
         ...props.activeContentTypes,
         contentList: [...props.contentList],
+        replaceList: true
       });
     }
   };
