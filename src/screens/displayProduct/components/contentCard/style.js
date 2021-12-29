@@ -47,7 +47,7 @@ export const FlexScroll = styled.div`
   overflow-x: scroll;
   display: flex;
   width: 100%;
-  padding: 5px 0;
+  padding: 0 0 5px 0;
 `;
 
 export const ButtonAdd = styled.div`

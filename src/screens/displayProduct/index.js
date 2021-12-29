@@ -13,6 +13,7 @@ import { setContentTypes, setTaggedData } from "../../redux/actions/state";
 const mapStateToProps = (state) => ({
   contentFilters: state.get.contentFilters,
   tagProducts: state.get.tagProducts,
+  tagCollection: state.get.tagCollection,
   contentList: state.get.contentList,
   activeContentTypes: state.state.activeContentTypes,
   activeBrand: state.state.activeBrand,

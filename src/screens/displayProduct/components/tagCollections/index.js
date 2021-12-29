@@ -6,24 +6,44 @@ import * as S from "./style";
 const TagProducts = (props) => {
   useEffect(async () => {
     if (props.modalData.type == "PRODUCT") {
-      await props?.parentProps?.getProducts();
+      await props?.parentProps?.getProducts({ type: "PRODUCT", endCursor: props?.parentProps?.tagProducts?.data?.pageInfo.endCursor });
+    } else {
+      await props?.parentProps?.getProducts({ type: "COLLECTION", endCursor: props?.parentProps?.tagProducts?.data?.pageInfo.endCursor });
     }
-  }, []);
+  }, [props.modalData]);
 
   return (
     <S.Wrapper>
+        {console.log(props, '----------')}
       <SearchInput />
       <S.ScrollY>
-        <ProductList
-          postUnTagContent={props.postUnTagContent}
-          taggedDataList={props?.taggedDataList}
-          products={
-            props?.parentProps?.tagProducts?.data?.products
-              ? [...props?.parentProps?.tagProducts?.data?.products]
-              : []
-          }
-          {...props}
-        />
+        {props.modalData.type == "PRODUCT" ? (
+          <ProductList
+            postUnTagContent={props.postUnTagContent}
+            taggedDataList={props?.taggedDataList}
+            products={
+              props?.parentProps?.tagProducts?.data?.products
+                ? [...props?.parentProps?.tagProducts?.data?.products]
+                : []
+            }
+            {...props}
+          />
+        ) : (
+          <ProductList
+            postUnTagContent={props.postUnTagContent}
+            taggedDataList={props?.taggedDataList}
+            tagCollection={props?.parentProps?.tagCollection}
+            tagProducts={props?.parentProps?.tagProducts}
+            getProducts={props?.parentProps?.getProducts}
+            type={props.modalData.type}
+            products={
+              props?.parentProps?.tagCollection?.data?.collections
+                ? [...props?.parentProps?.tagCollection?.data?.collections]
+                : []
+            }
+            {...props}
+          />
+        )}
       </S.ScrollY>
     </S.Wrapper>
   );

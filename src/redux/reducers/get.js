@@ -4,6 +4,7 @@ const State = (
     contentFilters: null,
     tagProducts: {},
     contentList: [],
+    tagCollection: {},
   },
   action = {}
 ) => {
@@ -16,9 +17,33 @@ const State = (
     case "TAG_PRODUCTS":
       return {
         ...state,
-        tagProducts: action.payload,
+        tagProducts: 
+        {
+          ...state.tagProducts,
+          data: {
+            ...action.payload.data,
+            collections: [...action.payload.data.products]
+          },
+        }
+      };
+    case "TAG_COLLECTION":
+      return {
+        ...state,
+        tagCollection: 
+        {
+          ...state.tagCollection,
+          data: {
+            ...action.payload.data,
+            collections: [...action.payload.data.collections]
+          },
+        }
       };
     case "CONTENT_LIST":
+      return {
+        ...state,
+        contentList: [...state.contentList, ...action.payload],
+      };
+    case "CONTENT_LIST_REPLACE":
       return {
         ...state,
         contentList: action.payload,

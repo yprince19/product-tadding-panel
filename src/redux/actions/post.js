@@ -30,13 +30,19 @@ export function postTagContent(data) {
     };
 
     fetch(`${urlFor(ServiceEnum.postTagContent)}`, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log(result, data);
-
         // updating data in store
         let temp = { ...data.taggedDataList };
         temp[`${data.products.id}`][data.tagType].push(data.dataToAdd);
+        console.log('TAGGED_DATA2', temp)
         dispatch({ type: "TAGGED_DATA", payload: temp });
 
         return { success: true };
@@ -96,6 +102,8 @@ export function postUnTagContent(data) {
             }
           }
         }
+
+        console.log('TAGGED_DATA3', temp)
         dispatch({ type: "TAGGED_DATA", payload: temp });
         return { success: true };
       })
@@ -130,20 +138,14 @@ export function postTrashContent(data) {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result, data);
-
+        console.log(result);
         let tempData = [...data.contentList];
-
         for (let i in tempData) {
-            console.log(tempData[i].id, data.ids[0])
-            if (tempData[i].id == data.ids[0]) {
-                console.warn('pppppppppppp')
-                tempData.splice(i, 1)
-            }
+          if (tempData[i].id == data.ids[0]) {
+            tempData.splice(i, 1);
+          }
         }
-        console.log(tempData)
-        dispatch({ type: "CONTENT_LIST", payload: tempData });
-
+        dispatch({ type: "CONTENT_LIST_REPLACE", payload: tempData });
       })
       .catch((error) => {
         console.log("error", error);

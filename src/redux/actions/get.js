@@ -80,22 +80,23 @@ export function getContentList(data) {
       redirect: "follow",
     };
 
+    let offset = data.contentList.length;
     fetch(
       `${urlFor(ServiceEnum.getContentList)}?content_format=${
         data.contentFormat
       }&content_source=${
         data.contentSource
-      }&limit=10&offset=0&zaamo_id=QnJhbmQ6Ng==&user_type=BRAND`,
+      }&limit=5&offset=${offset}&zaamo_id=QnJhbmQ6Ng==&user_type=BRAND`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        console.log(result, "res");
         let temp = {};
-        result.data.map((e) => {
+        [...data.contentList, ...result.data].map((e) => {
           let id = `${e.id}`;
           if (!temp[id]) {
-            temp[id] = {}
+            temp[id] = {};
             temp[id]["COLLECTION"] = [...e.tagged_collections];
             temp[id]["PRODUCT"] = [...e.tagged_products];
           } else {
@@ -106,7 +107,8 @@ export function getContentList(data) {
             temp[id]["PRODUCT"] = [temp[id]["PRODUCT"], ...e.tagged_products];
           }
         });
-        dispatch({type: 'TAGGED_DATA', payload: temp});
+        console.log('TAGGED', temp)
+        dispatch({ type: "TAGGED_DATA", payload: temp });
         dispatch({ type: "CONTENT_LIST", payload: result.data });
         return { success: true };
       })
@@ -127,15 +129,31 @@ export function getProducts(data) {
       headers: myHeaders,
       redirect: "follow",
     };
+    console.log("init", data);
+
+    let url = `${urlFor(
+      ServiceEnum.getProducts
+    )}?brand_id=QnJhbmQ6Ng==&first=10&endCursor=${data.endCursor}`;
+
+    if (data.type == "COLLECTION") {
+      url = `${urlFor(
+        ServiceEnum.getCollections
+      )}?store_id=U3RvcmU6NjI=&first=10&endCursor=${data.endCursor}`;
+    }
 
     fetch(
-      `${urlFor(ServiceEnum.getProducts)}?brand_id=QnJhbmQ6Ng==&first=10`,
+      url,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
         console.log(result, "TAG_PRODUCTS");
-        dispatch({ type: "TAG_PRODUCTS", payload: result });
+        if (data.type == "PRODUCT") {
+          dispatch({ type: "TAG_PRODUCTS", payload: result });
+        } else {
+          dispatch({ type: "TAG_COLLECTION", payload: result });
+        }
+        
         return { success: true };
       })
       .catch((error) => {

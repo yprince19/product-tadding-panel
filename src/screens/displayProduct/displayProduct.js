@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import { useEffect, useState } from "react";
 import TagProducts from "./components/tagCollections";
 import ContentCard from "./components/contentCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function DisplayProductComponent(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,26 +20,33 @@ export default function DisplayProductComponent(props) {
 
   useEffect(() => {
     if (props?.contentFilters !== null) {
-      props.setContentTypes({
-        ...props.activeContentTypes,
-        contentSource: props?.contentFilters?.content_source[0],
-      });
-      props.setContentTypes({
-        ...props.activeContentTypes,
-        contentFormat: props?.contentFilters?.content_format[0],
-      });
+      // props.setContentTypes({
+      //   ...props.activeContentTypes,
+      //   contentSource: props?.contentFilters?.content_source[0],
+      // });
+      // props.setContentTypes({
+      //   ...props.activeContentTypes,
+      //   contentFormat: props?.contentFilters?.content_format[0],
+      // });
     }
   }, [props.getContentFilters]);
 
   useEffect(() => {
+    fetchContentList();
+  }, [props.activeContentTypes]);
+
+  const fetchContentList = () => {
     if (
       props?.activeContentTypes !== null &&
       props?.activeContentTypes.contentSource &&
       props?.activeContentTypes.contentFormat
     ) {
-      props.getContentList({ ...props.activeContentTypes });
+      props.getContentList({
+        ...props.activeContentTypes,
+        contentList: [ ...props.contentList ],
+      });
     }
-  }, [props.activeContentTypes]);
+  };
 
   const toggleModal = ({ type, id, activeContentType }) => {
     setModalData({
@@ -69,7 +77,6 @@ export default function DisplayProductComponent(props) {
               })
             }
             value={props?.activeContentTypes?.contentSource}
-
           />
           <DropdownComp
             width="48%"
@@ -90,18 +97,37 @@ export default function DisplayProductComponent(props) {
         </S.Flex>
       </S.Wrapper>
       <S.Container>
-        {props.contentList.map((e, i) => (
-          <ContentCard
-            toggleModal={toggleModal}
-            key={i}
-            taggedDataList={props.taggedDataList}
-            postUnTagContent={props.postUnTagContent}
-            contentFilters={props.contentFilters}
-            postTrashContent={props.postTrashContent}
-            contentList={props.contentList}
-            {...e}
-          />
-        ))}
+        {props?.activeContentTypes == null ||
+        (props?.activeContentTypes != null &&
+          !props?.activeContentTypes.contentSource ||
+          !props?.activeContentTypes.contentFormat) ? (
+          <p>Please Select Content Type and Content Format</p>
+        ) : (
+          <InfiniteScroll
+            dataLength={props.contentList.length} //This is important field to render the next data
+            next={fetchContentList}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            {props.contentList.map((e, i) => (
+              <ContentCard
+                toggleModal={toggleModal}
+                key={i}
+                taggedDataList={props.taggedDataList}
+                postUnTagContent={props.postUnTagContent}
+                contentFilters={props.contentFilters}
+                postTrashContent={props.postTrashContent}
+                contentList={props.contentList}
+                {...e}
+              />
+            ))}
+          </InfiniteScroll>
+        )}
       </S.Container>
 
       {/* product tagging modal */}
