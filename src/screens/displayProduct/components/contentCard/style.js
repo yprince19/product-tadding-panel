@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const ContentCard = styled.div`
   margin: 20px 0;
-  max-width: 22%;
+  max-width: 24%;
   min-width: 220px;
   background-color: #fff;
-  max-height: 90vh;
-  overflow-y: scroll;
+  max-height: 100vh;
+  min-height: 200px;
   ::-webkit-scrollbar {
     width: 3px;
   }
@@ -65,10 +65,10 @@ export const Cross = styled.span`
 `;
 
 export const FlexScroll = styled.div`
-  overflow-x: scroll;
   display: flex;
-  width: 100%;
-  padding: 0 0 5px 0;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding: 0 2px 5px 2px;
   -ms-overflow-style: none;
   scrollbar-width: 2px;
   ::-webkit-scrollbar {
@@ -80,7 +80,7 @@ export const ButtonAdd = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px;
+  padding: 7px 2px;
   margin: 2px;
   background: #ffffff;
   border: 2px solid rgba(207, 207, 207, 0.2);
@@ -92,7 +92,7 @@ export const ButtonAdd = styled.div`
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     line-height: 14px;
     align-items: flex-end;
     letter-spacing: -0.02em;
@@ -126,6 +126,8 @@ export const ContentWrapper = styled.div`
   padding: 10px;
   font-size: 0.85rem;
   max-height: 200px;
+  overflow-y: scroll;
+
   ::-webkit-scrollbar {
     width: 5px;
   }

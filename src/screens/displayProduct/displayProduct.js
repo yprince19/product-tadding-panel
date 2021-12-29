@@ -125,9 +125,9 @@ export default function DisplayProductComponent(props) {
             className="flex-card"
           >
             {props.contentList.map((e, i) => (
-              <ContentCard
+              e?.media_url && <ContentCard
                 toggleModal={toggleModal}
-                key={i}
+                key={e.id}
                 taggedDataList={props.taggedDataList}
                 postUnTagContent={props.postUnTagContent}
                 contentFilters={props.contentFilters}
@@ -171,5 +171,7 @@ const customStyles = {
     maxWidth: "426px",
     minHeight: "80vh",
     borderRadius: "30px",
+    zIndex: 9
   },
+  overlay: {zIndex: 1000}
 };

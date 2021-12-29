@@ -11,7 +11,7 @@ const ContentCard = (props) => {
 
   const vidRef = useRef(null);
   const handlePlayVideo = () => {
-    console.log(vidRef)
+    console.log(vidRef);
     if (vidRef.current.paused) {
       vidRef.current.play();
     } else {
@@ -19,10 +19,10 @@ const ContentCard = (props) => {
     }
   };
 
-  const handleZoomChange = useCallback(shouldZoom => {
+  const handleZoomChange = useCallback((shouldZoom) => {
     setIsZoomed(shouldZoom);
     handlePlayVideo();
-  }, [])
+  }, []);
 
   const untagCollection = (data) => {
     props?.postUnTagContent({
@@ -51,23 +51,19 @@ const ContentCard = (props) => {
   return (
     <S.ContentCard>
       <S.ProductImage>
-        <S.Cross style={{zIndex: "99"}} onClick={() => trashContent(props.id)}>
+        <S.Cross
+          style={{ zIndex: 1 }}
+          onClick={() => trashContent(props.id)}
+        >
           <ReactSVG src="/assets/images/cross-trash.svg" />
         </S.Cross>
         {props?.media_type == "VIDEO" ? (
           // <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
-            <video onClick={handlePlayVideo} ref={vidRef} width="100%">
-              <source
-                src="https://www.w3schools.com/html/mov_bbb.mp4"
-                type="video/mp4"
-              />
-              <source
-                src="https://www.w3schools.com/html/mov_bbb.ogg"
-                type="video/ogg"
-              />
-            </video>
-          // </ControlledZoom>
+          <video onClick={handlePlayVideo} ref={vidRef} width="100%">
+            <source src={props?.media_url} type="video/mp4" />
+          </video>
         ) : (
+          // </ControlledZoom>
           <Zoom>
             <img width="100%" src={props?.media_url} alt="img" />
           </Zoom>
@@ -95,30 +91,30 @@ const ContentCard = (props) => {
               />
               <span>{props?.followers}</span>
             </li>
-            <li>
+            {/* <li>
               <ReactSVG
                 style={{ filter: "drop-shadow(0px 0px 4px #000)" }}
                 src="/assets/images/eye.svg"
               />
               <span>Quick View</span>
-            </li>
+            </li> */}
           </ul>
         </S.ProductOverviewWrap>
       </S.ProductImage>
       <S.Flex>
-        <DropdownComp
-          width="130px"
-          placeholder="Content Type"
-          options={
-            props?.contentFilters !== null
-              ? props?.contentFilters?.content_type
-              : []
-          }
-          onChange={(e) => setActiveContentType(e.value)}
-        />
         <S.FlexScroll>
+          <DropdownComp
+            width="130px"
+            placeholder="Content Type"
+            options={
+              props?.contentFilters !== null
+                ? props?.contentFilters?.content_type
+                : []
+            }
+            onChange={(e) => setActiveContentType(e.value)}
+          />
           <S.ButtonAdd>
-            <span>+ Add Product</span>
+            <span>+Add Product</span>
           </S.ButtonAdd>
           <S.ButtonAdd
             onClick={() =>
@@ -129,7 +125,7 @@ const ContentCard = (props) => {
               })
             }
           >
-            <span>+ Tag Collections</span>
+            <span>+Tag Collections</span>
           </S.ButtonAdd>
           <S.ButtonAdd
             onClick={() =>
@@ -140,7 +136,7 @@ const ContentCard = (props) => {
               })
             }
           >
-            <span>+ Tag Products </span>
+            <span>+Tag Products</span>
           </S.ButtonAdd>
         </S.FlexScroll>
       </S.Flex>

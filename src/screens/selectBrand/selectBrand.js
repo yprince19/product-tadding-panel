@@ -16,7 +16,12 @@ export default function SelectBrandComponent(props) {
       value: e.node.id,
       label: e.node.brandName,
     }));
-    temp && setBrands(temp);
+    data?.brands?.edges?.map((e) => {
+      if (e.node.id == "QnJhbmQ6Ng==") {
+        console.log(e)
+      }
+    });
+    temp && setBrands([...brands, ...temp]);
   }, [data]);
 
   const onChange = (e) => {

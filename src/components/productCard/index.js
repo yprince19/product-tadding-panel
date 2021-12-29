@@ -35,7 +35,6 @@ const ProductCard = (props) => {
           slug: props?.slug,
         },
         taggedDataList: props?.taggedDataList,
-        brandId: props?.parentProps?.activeBrand.value
       };
       const res = await props?.parentProps?.postTagContent(data);
     }
