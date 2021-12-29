@@ -51,10 +51,10 @@ const ContentCard = (props) => {
   return (
     <S.ContentCard>
       <S.ProductImage>
-        <S.Cross onClick={() => trashContent(props.id)}>
+        <S.Cross style={{zIndex: "99"}} onClick={() => trashContent(props.id)}>
           <ReactSVG src="/assets/images/cross-trash.svg" />
         </S.Cross>
-        {props?.media_type !== "VIDEO" ? (
+        {props?.media_type == "VIDEO" ? (
           // <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
             <video onClick={handlePlayVideo} ref={vidRef} width="100%">
               <source
