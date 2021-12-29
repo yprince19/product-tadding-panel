@@ -108,7 +108,7 @@ export default function DisplayProductComponent(props) {
             dataLength={props.contentList.length} //This is important field to render the next data
             next={fetchContentList}
             hasMore={props.hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={<h4></h4>}
             endMessage={
               <p
                 style={{
@@ -134,6 +134,7 @@ export default function DisplayProductComponent(props) {
                 contentFilters={props.contentFilters}
                 postTrashContent={props.postTrashContent}
                 contentList={props.contentList}
+                hasMore={props.hasMore}
                 {...e}
               />
             ))}

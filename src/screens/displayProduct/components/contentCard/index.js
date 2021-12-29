@@ -44,6 +44,7 @@ const ContentCard = (props) => {
     let data = {
       ids: [id],
       contentList: [...props.contentList],
+      hasMore: props.hasMore,
     };
     await props.postTrashContent(data);
   };

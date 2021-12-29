@@ -81,7 +81,7 @@ export function getContentList(data) {
     };
 
     let offset = data.contentList.length;
-    let activeBrandId = localStorage.getItem('activeBrandId');
+    let activeBrandId = localStorage.getItem("activeBrandId");
     fetch(
       `${urlFor(ServiceEnum.getContentList)}?content_format=${
         data.contentFormat
@@ -94,7 +94,15 @@ export function getContentList(data) {
       .then((result) => {
         console.log(result, "res", data);
         let temp = {};
-        [...data.contentList, ...result.data].map((e) => {
+
+        let dataToMap;
+        if (data?.replaceList) {
+          dataToMap = [...result.data]
+        } else {
+          dataToMap = [...data.contentList, ...result.data]
+        }
+
+        dataToMap.map((e) => {
           let id = `${e.id}`;
           if (!temp[id]) {
             temp[id] = {};
@@ -108,13 +116,21 @@ export function getContentList(data) {
             temp[id]["PRODUCT"] = [temp[id]["PRODUCT"], ...e.tagged_products];
           }
         });
-        console.log('TAGGED', temp)
 
         const hasMore = result.data.length < 10 ? false : true;
+        console.log("TAGGED", temp, hasMore, result.data.length);
+
         dispatch({ type: "TAGGED_DATA", payload: temp });
-        dispatch({ type: "CONTENT_LIST", payload: {data: result.data, hasMore: hasMore} });
         if (data?.replaceList) {
-          dispatch({ type: "CONTENT_LIST_REPLACE", payload: {data: result.data, hasMore: hasMore} });
+          dispatch({
+            type: "CONTENT_LIST_REPLACE",
+            payload: { data: result.data, hasMore: hasMore },
+          });
+        } else {
+          dispatch({
+            type: "CONTENT_LIST",
+            payload: { data: result.data, hasMore: hasMore },
+          });
         }
         return { success: true };
       })
@@ -147,10 +163,7 @@ export function getProducts(data) {
       )}?store_id=U3RvcmU6NjI=&first=10&endCursor=${data.endCursor}`;
     }
 
-    fetch(
-      url,
-      requestOptions
-    )
+    fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result, "TAG_PRODUCTS");
@@ -159,7 +172,7 @@ export function getProducts(data) {
         } else {
           dispatch({ type: "TAG_COLLECTION", payload: result });
         }
-        
+
         return { success: true };
       })
       .catch((error) => {
