@@ -97,9 +97,9 @@ export function getContentList(data) {
 
         let dataToMap;
         if (data?.replaceList) {
-          dataToMap = [...result.data]
+          dataToMap = [...result.data];
         } else {
-          dataToMap = [...data.contentList, ...result.data]
+          dataToMap = [...data.contentList, ...result.data];
         }
 
         dataToMap.map((e) => {
@@ -153,6 +153,7 @@ export function getProducts(data) {
     };
     console.log("init", data);
 
+    const storeId = localStorage.getItem("activeStoreId");
     let url = `${urlFor(
       ServiceEnum.getProducts
     )}?brand_id=QnJhbmQ6Ng==&first=10&endCursor=${data.endCursor}`;
@@ -160,7 +161,7 @@ export function getProducts(data) {
     if (data.type == "COLLECTION") {
       url = `${urlFor(
         ServiceEnum.getCollections
-      )}?store_id=U3RvcmU6NjI=&first=10&endCursor=${data.endCursor}`;
+      )}?store_id=${storeId}&first=10&endCursor=${data.endCursor}`;
     }
 
     fetch(url, requestOptions)

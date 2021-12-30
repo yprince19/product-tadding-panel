@@ -16,17 +16,18 @@ export default function SelectBrandComponent(props) {
       value: e.node.id,
       label: e.node.brandName,
     }));
-    data?.brands?.edges?.map((e) => {
-      if (e.node.id == "QnJhbmQ6Ng==") {
-        console.log(e)
-      }
-    });
     temp && setBrands([...brands, ...temp]);
   }, [data]);
 
   const onChange = (e) => {
     props.SetBrand(e.value);
     localStorage.setItem('activeBrandId', e.value);
+    data?.brands?.edges.map(brand => {
+      if (brand.node.id == e.value) {
+        console.log(brand, 'brand')
+        localStorage.setItem('activeStoreId', brand?.node?.store?.id);
+      }
+    })
   };
 
   return (
