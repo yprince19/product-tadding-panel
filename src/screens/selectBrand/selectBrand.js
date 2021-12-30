@@ -23,7 +23,6 @@ export default function SelectBrandComponent(props) {
   const onChange = (e) => {
     props.SetBrand(e);
     localStorage.setItem("activeBrandId", e.value);
-    
     data?.brands?.edges.map((brand) => {
       if (brand.node.id == e.value) {
         localStorage.setItem("activeStoreId", brand?.node?.store?.id);

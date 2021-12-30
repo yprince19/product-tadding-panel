@@ -23,7 +23,7 @@ const ContentCard = (props) => {
     handlePlayVideo();
   }, []);
 
-  const untagCollection = (data) => {
+  const untagContent = (data) => {
     props?.postUnTagContent({
       ...data,
       taggedDataList: props?.taggedDataList,
@@ -51,10 +51,7 @@ const ContentCard = (props) => {
   return (
     <S.ContentCard>
       <S.ProductImage>
-        <S.Cross
-          style={{ zIndex: 1 }}
-          onClick={() => trashContent(props.id)}
-        >
+        <S.Cross style={{ zIndex: 1 }} onClick={() => trashContent(props.id)}>
           <ReactSVG src="/assets/images/cross-trash.svg" />
         </S.Cross>
         {props?.media_type == "VIDEO" ? (
@@ -147,18 +144,17 @@ const ContentCard = (props) => {
           ...props?.taggedDataList[`${props?.id}`]["COLLECTION"],
         ].length != 0 && (
           <S.FlexScroll>
+            {console.log(props)}
             {props?.taggedDataList[`${props?.id}`] &&
               [...props?.taggedDataList[`${props?.id}`]["PRODUCT"]].map(
                 (e, i) => (
                   <S.CategoryGroup key={e.id}>
                     <ReactSVG
                       onClick={() =>
-                        untagCollection({
-                          products: {
-                            content_id: props?.id,
-                            product_id: e.id,
-                            sku_id: "UHJvZHVjdFZhcmlhbnQ6MjI5MQ==",
-                          },
+                        untagContent({
+                          products: [
+                            { content_id: props?.id, product_id: e.id },
+                          ],
                           untagType: "PRODUCT",
                         })
                       }
@@ -174,11 +170,10 @@ const ContentCard = (props) => {
                   <S.CategoryGroup key={e.id}>
                     <ReactSVG
                       onClick={() =>
-                        untagCollection({
-                          products: {
-                            content_id: props?.id,
-                            collection_id: e.id,
-                          },
+                        untagContent({
+                          products: [
+                            { content_id: props?.id, collection_id: e.id },
+                          ],
                           untagType: "COLLECTION",
                         })
                       }

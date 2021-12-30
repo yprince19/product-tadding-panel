@@ -2,6 +2,7 @@ import { ServiceEnum, urlFor } from "../../network/Urls";
 import { setTaggedData } from "./state";
 
 export function postTagContent(data) {
+  console.log(data)
   return async (dispatch) => {
     var myHeaders = new Headers();
     myHeaders.append("Service-Token", "2900ba48-85f6-4929-b19d-0c0da14dbc14");
@@ -16,7 +17,7 @@ export function postTagContent(data) {
         //   sku_id: "UHJvZHVjdFZhcmlhbnQ6MjI5MQ==",
         //   content_type: "SEARCH_IMAGE",
         // },
-        { ...data.products },
+         ...data.products 
       ],
       zaamo_id: activeBrandId, //"QnJhbmQ6Ng=="
       user_type: "BRAND",
@@ -42,7 +43,7 @@ export function postTagContent(data) {
         console.log(result, data);
         // updating data in store
         let temp = { ...data.taggedDataList };
-        temp[`${data.products.id}`][data.tagType].push(data.dataToAdd);
+        temp[`${data.products[0].id}`][data.tagType].push(data.dataToAdd);
         console.log("TAGGED_DATA2", temp);
         dispatch({ type: "TAGGED_DATA", payload: temp });
 
@@ -63,9 +64,7 @@ export function postUnTagContent(data) {
 
     var raw = JSON.stringify({
       data: [
-        {
           ...data.products,
-        },
       ],
       untag_type: data.untagType,
     });
@@ -91,21 +90,21 @@ export function postUnTagContent(data) {
         // updating data in store
         let temp = { ...data.taggedDataList };
         if (data.untagType == "PRODUCT") {
-          for (let i in temp[`${data.products.content_id}`][data.untagType]) {
+          for (let i in temp[`${data.products[0].content_id}`][data.untagType]) {
             if (
-              temp[`${data.products.content_id}`][data.untagType][i].id ==
-              data.products.product_id
+              temp[`${data.products[0].content_id}`][data.untagType][i].id ==
+              data.products[0].product_id
             ) {
-              temp[`${data.products.content_id}`][data.untagType].splice(i, 1);
+              temp[`${data.products[0].content_id}`][data.untagType].splice(i, 1);
             }
           }
         } else {
-          for (let i in temp[`${data.products.content_id}`][data.untagType]) {
+          for (let i in temp[`${data.products[0].content_id}`][data.untagType]) {
             if (
-              temp[`${data.products.content_id}`][data.untagType][i].id ==
-              data.products.collection_id
+              temp[`${data.products[0].content_id}`][data.untagType][i].id ==
+              data.products[0].collection_id
             ) {
-              temp[`${data.products.content_id}`][data.untagType].splice(i, 1);
+              temp[`${data.products[0].content_id}`][data.untagType].splice(i, 1);
             }
           }
         }

@@ -171,10 +171,11 @@ export function getProducts(data) {
     };
     console.log("init", data);
 
+    let activeBrandId = localStorage.getItem("activeBrandId");
     const storeId = localStorage.getItem("activeStoreId");
     let url = `${urlFor(
       ServiceEnum.getProducts
-    )}?brand_id=QnJhbmQ6Ng==&first=10`;
+    )}?brand_id=${activeBrandId}&first=10`;
 
     if (data.type == "COLLECTION") {
       url = `${urlFor(

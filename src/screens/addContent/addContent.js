@@ -8,15 +8,7 @@ import { GET_BRANDS } from "../selectBrand/queries";
 import { toast } from "react-toastify";
 
 export default function AddContentComponent(props) {
-  const [contentFormat, setContentFormat] = useState(null);
-
   const { loading, data, error } = useQuery(GET_BRANDS);
-
-  useEffect(() => {
-    if (props.contentFilters == null) {
-      props.getContentFilters();
-    }
-  }, []);
 
   useEffect(() => {
     if (props.brandsList.length == 0) {
@@ -64,19 +56,8 @@ export default function AddContentComponent(props) {
             onChange={onChange}
             value={props?.activeBrand}
           />
-          <DropdownComp
-            width="48%"
-            placeholder="Content Format"
-            options={
-              props?.contentFilters !== null
-                ? props?.contentFilters?.content_format
-                : []
-            }
-            onChange={(e) => setContentFormat(e)}
-            value={contentFormat}
-          />
         </S.Flex>
-        {props.activeBrand && contentFormat ? (
+        {props.activeBrand ? (
           <FilePicker
             extensions={["mp4", "jpg", "png", "jpeg"]}
             onChange={(FileObject) => uploadContent(FileObject)}

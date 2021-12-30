@@ -3,13 +3,19 @@ import * as S from "./style";
 const ProductCard = (props) => {
   const tagProduct = async () => {
     if (props?.modalData.type === "PRODUCT") {
+      // mapping all variants of a product
+      let temp = {
+        id: props?.modalData.id,
+        product_id: props?.id,
+        content_type: props?.modalData.activeContentType,
+      };
+      let products = props?.variants.map((e) => ({
+        ...temp,
+        sku_id: e.id,
+      }));
+      console.log(products);
       let data = {
-        products: {
-          id: props?.modalData.id,
-          product_id: props?.id,
-          sku_id: "UHJvZHVjdFZhcmlhbnQ6MjI5MQ==",
-          content_type: props?.modalData.activeContentType,
-        },
+        products: [...products],
         tagType: "PRODUCT",
         dataToAdd: {
           content_type: props?.modalData.activeContentType,
@@ -47,36 +53,55 @@ const ProductCard = (props) => {
     });
   };
 
+  const untagProduct = () => {
+    // mapping all variants of a product
+    let temp = {
+      content_id: props?.modalData?.id,
+      product_id: props?.id,
+    };
+    let products = props?.variants.map((e) => ({
+      ...temp,
+      sku_id: e.id,
+    }));
+
+    let data = {
+      products: [...products],
+      untagType: "PRODUCT",
+    };
+
+    props?.postUnTagContent({
+      ...data,
+      taggedDataList: props?.taggedDataList,
+    });
+  };
+
   const ids = props?.taggedDataList[`${props?.modalData.id}`]
-    ? props?.taggedDataList[`${props?.modalData.id}`][props?.modalData.type].map(
-        (e) => e.id
-      )
+    ? props?.taggedDataList[`${props?.modalData.id}`][
+        props?.modalData.type
+      ].map((e) => e.id)
     : [];
   const istagged = ids.includes(props?.id);
 
   return (
     <S.Card>
-
-      {
-          props?.modalData.type == "PRODUCT" ? (
-            <S.Flex>
-            <img src={props?.thumbnail.url} alt="img" />
-            <S.ProdDetails>
-              <h2>{props?.name}</h2>
-              <span>https//www.urbanic.tshirt//</span>
-              <p>Rs. {props?.price}</p>
-            </S.ProdDetails>
-          </S.Flex>
-          ) : (
-            <S.Flex>
-            <img src={props?.image_url} alt="img" />
-            <S.ProdDetails>
-              <h2>{props?.name}</h2>
-              <span>https//www.urbanic.tshirt//</span>
-            </S.ProdDetails>
-          </S.Flex>
-          )
-      }
+      {props?.modalData.type == "PRODUCT" ? (
+        <S.Flex>
+          <img src={props?.thumbnail.url} alt="img" />
+          <S.ProdDetails>
+            <h2>{props?.name}</h2>
+            <span>https//www.urbanic.tshirt//</span>
+            <p>Rs. {props?.price}</p>
+          </S.ProdDetails>
+        </S.Flex>
+      ) : (
+        <S.Flex>
+          <img src={props?.image_url} alt="img" />
+          <S.ProdDetails>
+            <h2>{props?.name}</h2>
+            <span>https//www.urbanic.tshirt//</span>
+          </S.ProdDetails>
+        </S.Flex>
+      )}
       <S.Button
         active={istagged ? true : false}
         onClick={
@@ -84,14 +109,7 @@ const ProductCard = (props) => {
             ? tagProduct
             : () => {
                 props?.modalData.type == "PRODUCT"
-                  ? untagCollection({
-                      products: {
-                        content_id: props?.modalData?.id,
-                        product_id: props?.id,
-                        sku_id: "UHJvZHVjdFZhcmlhbnQ6MjI5MQ==",
-                      },
-                      untagType: "PRODUCT",
-                    })
+                  ? untagProduct()
                   : untagCollection({
                       products: {
                         content_id: props?.modalData?.id,

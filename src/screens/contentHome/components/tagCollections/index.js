@@ -5,16 +5,16 @@ import * as S from "./style";
 
 const TagProducts = (props) => {
   useEffect(async () => {
+    console.log(props, 'propsss')
     if (props.modalData.type == "PRODUCT") {
       await props?.parentProps?.getProducts({ type: "PRODUCT", endCursor: props?.parentProps?.tagProducts?.data?.pageInfo.endCursor });
     } else {
-      await props?.parentProps?.getProducts({ type: "COLLECTION", endCursor: props?.parentProps?.tagProducts?.data?.pageInfo.endCursor });
+      await props?.parentProps?.getProducts({ type: "COLLECTION", endCursor: props?.parentProps?.tagCollection?.data?.pageInfo.endCursor });
     }
   }, [props.modalData]);
 
   return (
     <S.Wrapper>
-        {console.log(props, '----------')}
       <SearchInput />
       <S.ScrollY>
         {props.modalData.type == "PRODUCT" ? (
