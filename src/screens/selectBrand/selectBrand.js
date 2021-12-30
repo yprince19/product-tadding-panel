@@ -16,18 +16,19 @@ export default function SelectBrandComponent(props) {
       value: e.node.id,
       label: e.node.brandName,
     }));
-    temp && setBrands([...brands, ...temp]);
+    temp && setBrands([...temp]);
+    temp && props.setBrandsList([...temp]);
   }, [data]);
 
   const onChange = (e) => {
-    props.SetBrand(e.value);
-    localStorage.setItem('activeBrandId', e.value);
-    data?.brands?.edges.map(brand => {
+    props.SetBrand(e);
+    localStorage.setItem("activeBrandId", e.value);
+    
+    data?.brands?.edges.map((brand) => {
       if (brand.node.id == e.value) {
-        console.log(brand, 'brand')
-        localStorage.setItem('activeStoreId', brand?.node?.store?.id);
+        localStorage.setItem("activeStoreId", brand?.node?.store?.id);
       }
-    })
+    });
   };
 
   return (
@@ -40,15 +41,27 @@ export default function SelectBrandComponent(props) {
             placeholder="Select Brand"
             onChange={onChange}
             options={[...brands]}
+            value={props.activeBrand}
           />
         </S.Flex>
-        <S.Flex>
+        <S.Flex style={{ marginTop: "20vh" }}>
           <Link
-            style={{ width: "50%", marginTop: "20vh" }}
-            onClick={() => !props.activeBrand && alert("Please select an Brand!")}
-            to={props.activeBrand ? "/display" : "/"}
+            style={{ width: "50%", margin: "5px" }}
+            onClick={() =>
+              !props.activeBrand?.value && alert("Please select an Brand!")
+            }
+            to={props.activeBrand?.value ? "/content/home" : "/"}
           >
             <Button style={{ width: "100%" }}>Next</Button>
+          </Link>
+          <Link
+            style={{ width: "50%", margin: "5px" }}
+            onClick={() =>
+              !props.activeBrand?.value && alert("Please select an Brand!")
+            }
+            to={props.activeBrand?.value ? "/add/content" : "/"}
+          >
+            <Button style={{ width: "100%" }}>Upload Content</Button>
           </Link>
         </S.Flex>
       </S.Wrapper>

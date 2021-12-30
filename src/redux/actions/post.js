@@ -6,7 +6,7 @@ export function postTagContent(data) {
     var myHeaders = new Headers();
     myHeaders.append("Service-Token", "2900ba48-85f6-4929-b19d-0c0da14dbc14");
     myHeaders.append("Content-Type", "application/json");
-    let activeBrandId = localStorage.getItem('activeBrandId');
+    let activeBrandId = localStorage.getItem("activeBrandId");
 
     var raw = JSON.stringify({
       data: [
@@ -43,7 +43,7 @@ export function postTagContent(data) {
         // updating data in store
         let temp = { ...data.taggedDataList };
         temp[`${data.products.id}`][data.tagType].push(data.dataToAdd);
-        console.log('TAGGED_DATA2', temp)
+        console.log("TAGGED_DATA2", temp);
         dispatch({ type: "TAGGED_DATA", payload: temp });
 
         return { success: true };
@@ -78,7 +78,13 @@ export function postUnTagContent(data) {
     };
 
     fetch(`${urlFor(ServiceEnum.postUnTagContent)}`, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log(result, data);
 
@@ -104,7 +110,7 @@ export function postUnTagContent(data) {
           }
         }
 
-        console.log('TAGGED_DATA3', temp)
+        console.log("TAGGED_DATA3", temp);
         dispatch({ type: "TAGGED_DATA", payload: temp });
         return { success: true };
       })
@@ -137,7 +143,13 @@ export function postTrashContent(data) {
       "https://betacontent.zaamo.co/streaming/api/content/trash/",
       requestOptions
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log(result);
         let tempData = [...data.contentList];
@@ -146,11 +158,44 @@ export function postTrashContent(data) {
             tempData.splice(i, 1);
           }
         }
-        dispatch({ type: "CONTENT_LIST_REPLACE", payload: {data: tempData, hasMore: data.hasMore} });
+        dispatch({
+          type: "CONTENT_LIST_REPLACE",
+          payload: { data: tempData, hasMore: data.hasMore },
+        });
       })
       .catch((error) => {
         console.log("error", error);
         return { success: false, msg: error };
       });
+  };
+}
+
+export function contentUpload(data) {
+  return async () => {
+    console.log("init");
+    var formdata = new FormData();
+    formdata.append("file", data.fileObj);
+    formdata.append("zaamo_id", data.brandId);
+    formdata.append("tag_product", "false");
+    formdata.append("user_type", "BRAND");
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    let req = await fetch(
+      "https://betacontent.zaamo.co/engine/content/upload",
+      requestOptions
+    );
+    if (!req.ok) {
+      alert("Something went wrong!");
+      throw new Error("HTTP status " + req.status);
+    }
+    let response = await req.json();
+
+    console.log(response);
+    return { success: true, data: response };
   };
 }

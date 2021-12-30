@@ -14,4 +14,5 @@ export const Button = styled.button`
   margin: auto;
   border: hidden;
   display: block;
+  cursor: pointer;
 `;

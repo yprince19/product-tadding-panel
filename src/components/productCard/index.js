@@ -56,7 +56,7 @@ const ProductCard = (props) => {
 
   return (
     <S.Card>
-        {console.log(props)}
+
       {
           props?.modalData.type == "PRODUCT" ? (
             <S.Flex>

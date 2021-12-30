@@ -10,7 +10,7 @@ const DropdownComp = (props) => {
         controlClassName="myControlClassName"
         placeholderClassName='myPlaceholderClassName'
         options={options}
-        value={props?.default ? options[0] : null}
+        value={props?.value ? props.value : props?.default ? options[0] : null}
         onChange={props.onChange}
         placeholder={props?.placeholder ? props.placeholder : "--select--"}
       />

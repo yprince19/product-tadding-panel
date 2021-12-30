@@ -11,7 +11,6 @@ const ContentCard = (props) => {
 
   const vidRef = useRef(null);
   const handlePlayVideo = () => {
-    console.log(vidRef);
     if (vidRef.current.paused) {
       vidRef.current.play();
     } else {

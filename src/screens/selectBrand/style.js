@@ -10,4 +10,5 @@ export const Flex = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
+  align-items: flex-end;
 `;

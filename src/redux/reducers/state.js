@@ -3,6 +3,7 @@ const State = (
     taggedDataList: {},
     activeBrand: null,
     activeContentTypes: null,
+    brandsList: [],
   },
   action = {}
 ) => {
@@ -21,6 +22,11 @@ const State = (
       return {
         ...state,
         taggedDataList: action.payload,
+      };
+    case "BRANDS_LIST":
+      return {
+        ...state,
+        brandsList: action.payload,
       };
     default:
       return state;

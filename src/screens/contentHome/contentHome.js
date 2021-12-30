@@ -8,7 +8,7 @@ import TagProducts from "./components/tagCollections";
 import ContentCard from "./components/contentCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export default function DisplayProductComponent(props) {
+export default function ContentHomeComponent(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState({});
 

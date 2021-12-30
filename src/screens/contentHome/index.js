@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import DisplayProductComponent from "./displayProduct";
+import ContentHomeComponent from "./contentHome";
 import {
   getContentFilters,
   getContentList,
@@ -41,4 +41,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DisplayProductComponent);
+)(ContentHomeComponent);

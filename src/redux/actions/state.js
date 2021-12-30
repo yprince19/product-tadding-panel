@@ -17,3 +17,10 @@ export function setTaggedData (data) {
         dispatch({ type: 'TAGGED_DATA', payload: data})
     }
 }
+
+export function setBrandsList (data) {
+    console.log(data, 'setBrandsList')
+    return dispatch => {
+        dispatch({ type: 'BRANDS_LIST', payload: data})
+    }
+}

@@ -12,7 +12,13 @@ export function getContentFilters() {
     };
 
     fetch(urlFor(ServiceEnum.getContentFilters), requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         const tempData = result;
         const data = {};
@@ -55,7 +61,13 @@ export function getTagContent(data) {
     }
 
     fetch(url, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log(result);
         // dispatch({ type: "TAG_PRODUCTS", payload: result });
@@ -90,7 +102,13 @@ export function getContentList(data) {
       }&limit=10&offset=${offset}&zaamo_id=${activeBrandId}&user_type=BRAND`,
       requestOptions
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log(result, "res", data);
         let temp = {};
@@ -156,16 +174,24 @@ export function getProducts(data) {
     const storeId = localStorage.getItem("activeStoreId");
     let url = `${urlFor(
       ServiceEnum.getProducts
-    )}?brand_id=QnJhbmQ6Ng==&first=10&endCursor=${data.endCursor}`;
+    )}?brand_id=QnJhbmQ6Ng==&first=10`;
 
     if (data.type == "COLLECTION") {
       url = `${urlFor(
         ServiceEnum.getCollections
-      )}?store_id=${storeId}&first=10&endCursor=${data.endCursor}`;
+      )}?store_id=${storeId}&first=10`;
     }
 
+    data.endCursor && (url += `&endCursor=${data.endCursor}`);
+
     fetch(url, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          alert("Something went wrong!");
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      })
       .then((result) => {
         console.log(result, "TAG_PRODUCTS");
         if (data.type == "PRODUCT") {
